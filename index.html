@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Dashboard Project</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1 class="main-title">JavaScript API Dashboard</h1>
+    <button id="theme-toggle">🌗 Toggle Theme</button>
+  </header>
+
+  <div class="grid-container" id="dashboard" draggable="false">
+    <!-- DOG API -->
+    <section class="grid-item" id="dog-api" draggable="true">
+      <h2>🐶 Random Dog</h2>
+      <select id="dog-breed-select"><option value="">Random Breed</option></select>
+      <button type="button">Get Dog</button>
+      <button type="button" id="save-dog">Save</button>
+      <div class="output" id="dog-output"></div>
+    </section>
+
+    <!-- CAT API -->
+    <section class="grid-item" id="cat-api" draggable="true">
+      <h2>🐱 Random Cat</h2>
+      <button type="button">Get Cat</button>
+      <button type="button" id="save-cat">Save</button>
+      <div class="output" id="cat-output"></div>
+    </section>
+
+    <!-- WEATHER API -->
+    <section class="grid-item" id="weather-api" draggable="true">
+      <h2>☀️ Weather Info</h2>
+      <input type="text" id="weather-city-input" placeholder="Enter city" />
+      <button type="button">🎤 Voice</button>
+      <button type="button">Get Weather</button>
+      <div class="output" id="weather-output"></div>
+    </section>
+
+    <!-- CURRENCY API -->
+    <section class="grid-item" id="currency-api" draggable="true">
+      <h2>💱 Currency Rates</h2>
+      <input type="number" id="amount" placeholder="Amount in USD" />
+      <select id="currency-select">
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="JPY">JPY</option>
+      </select>
+      <button type="button">Convert</button>
+      <div class="output" id="currency-output"></div>
+    </section>
+
+    <!-- MOVIES API -->
+    <section class="grid-item" id="movies-api" draggable="true">
+      <h2>🎬 Trending Movies</h2>
+      <button type="button">Get Movies</button>
+      <button type="button" id="prev-movie">⬅️</button>
+      <button type="button" id="next-movie">➡️</button>
+      <div class="output" id="movies-output"></div>
+    </section>
+
+    <!-- GITHUB API -->
+    <section class="grid-item" id="github-api" draggable="true">
+      <h2>🧑‍💻 GitHub User</h2>
+      <input type="text" id="github-user-input" placeholder="Enter GitHub username" />
+      <button type="button">🎤 Voice</button>
+      <button type="button">Search</button>
+      <div class="output" id="github-output"></div>
+    </section>
+
+    <!-- JOKE API -->
+    <section class="grid-item" id="joke-api" draggable="true">
+      <h2>🤣 Random Joke</h2>
+      <select id="joke-category-select">
+        <option value="">Any</option>
+        <option value="Programming">Programming</option>
+        <option value="Misc">Misc</option>
+        <option value="Dark">Dark</option>
+        <option value="Pun">Pun</option>
+        <option value="Spooky">Spooky</option>
+        <option value="Christmas">Christmas</option>
+      </select>
+      <button type="button">Get Joke</button>
+      <button type="button" id="save-joke">Save</button>
+      <div class="output" id="joke-output"></div>
+    </section>
+
+    <!-- PUBLIC API -->
+    <section class="grid-item" id="public-api" draggable="true">
+      <h2>📚 Public APIs</h2>
+      <button type="button">Show One</button>
+      <div class="output" id="publicapi-output"></div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
