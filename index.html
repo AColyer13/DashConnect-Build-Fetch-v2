@@ -17,7 +17,7 @@
     <section class="grid-item" id="dog-api" draggable="true">
       <h2>🐶 Random Dog</h2>
       <select id="dog-breed-select"><option value="">Random Breed</option></select>
-      <button type="button">Get Dog</button>
+      <button type="button" id="get-dog">Get Dog</button>
       <button type="button" id="save-dog">Save</button>
       <button type="button" id="show-saved-dog">Show Saved</button>
       <div class="output" id="dog-output"></div>
@@ -26,7 +26,7 @@
     <!-- CAT API -->
     <section class="grid-item" id="cat-api" draggable="true">
       <h2>🐱 Random Cat</h2>
-      <button type="button">Get Cat</button>
+      <button type="button" id="get-cat">Get Cat</button>
       <button type="button" id="save-cat">Save</button>
       <button type="button" id="show-saved-cat">Show Saved</button>
       <div class="output" id="cat-output"></div>
@@ -36,8 +36,8 @@
     <section class="grid-item" id="weather-api" draggable="true">
       <h2>☀️ Weather Info</h2>
       <input type="text" id="weather-city-input" placeholder="Enter city" />
-      <button type="button">🎤 Voice</button>
-      <button type="button">Get Weather</button>
+      <button type="button" id="weather-voice">🎤 Voice</button>
+      <button type="button" id="get-weather">Get Weather</button>
       <div class="output" id="weather-output"></div>
     </section>
 
@@ -50,14 +50,14 @@
         <option value="GBP">GBP</option>
         <option value="JPY">JPY</option>
       </select>
-      <button type="button">Convert</button>
+      <button type="button" id="convert-currency">Convert</button>
       <div class="output" id="currency-output"></div>
     </section>
 
     <!-- MOVIES API -->
     <section class="grid-item" id="movies-api" draggable="true">
       <h2>🎬 Trending Movies</h2>
-      <button type="button">Get Movies</button>
+      <button type="button" id="get-movies">Get Movies</button>
       <button type="button" id="prev-movie">⬅️</button>
       <button type="button" id="next-movie">➡️</button>
       <div class="output" id="movies-output"></div>
@@ -67,8 +67,8 @@
     <section class="grid-item" id="github-api" draggable="true">
       <h2>🧑‍💻 GitHub User</h2>
       <input type="text" id="github-user-input" placeholder="Enter GitHub username" />
-      <button type="button">🎤 Voice</button>
-      <button type="button">Search</button>
+      <button type="button" id="github-voice">🎤 Voice</button>
+      <button type="button" id="search-github">Search</button>
       <div class="output" id="github-output"></div>
     </section>
 
@@ -84,7 +84,7 @@
         <option value="Spooky">Spooky</option>
         <option value="Christmas">Christmas</option>
       </select>
-      <button type="button">Get Joke</button>
+      <button type="button" id="get-joke">Get Joke</button>
       <button type="button" id="save-joke">Save</button>
       <button type="button" id="show-saved-joke">Show Saved</button>
       <div class="output" id="joke-output"></div>
@@ -93,7 +93,7 @@
     <!-- PUBLIC API -->
     <section class="grid-item" id="public-api" draggable="true">
       <h2>📚 Public APIs</h2>
-      <button type="button">Show One</button>
+      <button type="button" id="show-public-api">Show One</button>
       <div class="output" id="publicapi-output"></div>
     </section>
   </div>
