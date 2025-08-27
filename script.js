@@ -67,15 +67,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = breed ? `https://dog.ceo/api/breed/${breed}/images/random` : 'https://dog.ceo/api/breeds/image/random';
     const res = await fetch(url);
     const data = await res.json();
-    output.innerHTML = `<img src="${data.message}" alt="Dog" style="max-height:250px;" />`;
+    output.innerHTML = `<img src="${data.message}" alt="Dog" />`;
   }
 
   document.querySelector('#dog-api button:nth-of-type(1)').addEventListener('click', getDogImage);
+  // Save Dog (store array)
   document.getElementById('save-dog').addEventListener('click', () => {
     const img = document.querySelector('#dog-output img');
-    if (img) localStorage.setItem('savedDog', img.src);
+    if (img) {
+      let savedDogs = JSON.parse(localStorage.getItem('savedDogs') || '[]');
+      savedDogs.push(img.src);
+      localStorage.setItem('savedDogs', JSON.stringify(savedDogs));
+    }
   });
-  loadDogBreeds();
+
+  // Show Saved Dog (list + reset)
+  document.getElementById('show-saved-dog').addEventListener('click', () => {
+    let savedDogs = JSON.parse(localStorage.getItem('savedDogs') || '[]');
+    const html = savedDogs.length
+      ? savedDogs.map(src => `<img src="${src}" alt="Saved Dog" style="width:100%;max-width:250px;border-radius:12px;display:block;margin:auto;margin-bottom:1rem;" />`).join('')
+      : `<div class="empty-message">No saved dog images.</div>`;
+    showSavedContainer(
+      html,
+      'Saved Dogs',
+      () => {
+        localStorage.removeItem('savedDogs');
+        showSavedContainer(`<div class="empty-message">No saved dog images.</div>`, 'Saved Dogs');
+      }
+    );
+  });
 
   // 🐱 Cat API
   async function getCatImage() {
@@ -83,13 +103,34 @@ document.addEventListener('DOMContentLoaded', () => {
     output.innerHTML = 'Loading...';
     const res = await fetch('https://api.thecatapi.com/v1/images/search');
     const data = await res.json();
-    output.innerHTML = `<img src="${data[0].url}" alt="Cat" style="max-height:250px;" />`;
+    output.innerHTML = `<img src="${data[0].url}" alt="Cat" />`;
   }
 
   document.querySelector('#cat-api button:nth-of-type(1)').addEventListener('click', getCatImage);
+  // Save Cat (store array)
   document.getElementById('save-cat').addEventListener('click', () => {
     const img = document.querySelector('#cat-output img');
-    if (img) localStorage.setItem('savedCat', img.src);
+    if (img) {
+      let savedCats = JSON.parse(localStorage.getItem('savedCats') || '[]');
+      savedCats.push(img.src);
+      localStorage.setItem('savedCats', JSON.stringify(savedCats));
+    }
+  });
+
+  // Show Saved Cat (list + reset)
+  document.getElementById('show-saved-cat').addEventListener('click', () => {
+    let savedCats = JSON.parse(localStorage.getItem('savedCats') || '[]');
+    const html = savedCats.length
+      ? savedCats.map(src => `<img src="${src}" alt="Saved Cat" style="width:100%;max-width:250px;border-radius:12px;display:block;margin:auto;margin-bottom:1rem;" />`).join('')
+      : `<div class="empty-message">No saved cat images.</div>`;
+    showSavedContainer(
+      html,
+      'Saved Cats',
+      () => {
+        localStorage.removeItem('savedCats');
+        showSavedContainer(`<div class="empty-message">No saved cat images.</div>`, 'Saved Cats');
+      }
+    );
   });
 
   // ☀️ Weather API
@@ -161,9 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = await res.json();
     const top = data.results.slice(0, 3);
     output.innerHTML = top.map(m => `
-      <div style="text-align:center;">
-        <img src="https://image.tmdb.org/t/p/w200${m.poster_path}" alt="${m.title}" style="width:100px;" />
-        <div><strong>${m.title}</strong></div>
+      <div>
+        <img src="https://image.tmdb.org/t/p/w200${m.poster_path}" alt="${m.title}" />
+        <strong>${m.title}</strong>
       </div>
     `).join('');
   }
@@ -204,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelector('#joke-api button:nth-of-type(1)').addEventListener('click', getJoke);
+  // Save Joke
   document.getElementById('save-joke').addEventListener('click', () => {
     const joke = document.getElementById('joke-output').innerText;
     if (joke) {
@@ -211,6 +253,22 @@ document.addEventListener('DOMContentLoaded', () => {
       savedJokes.push(joke);
       localStorage.setItem('savedJokes', JSON.stringify(savedJokes));
     }
+  });
+
+  // Show Saved Jokes (list + reset)
+  document.getElementById('show-saved-joke').addEventListener('click', () => {
+    let savedJokes = JSON.parse(localStorage.getItem('savedJokes') || '[]');
+    const html = savedJokes.length
+      ? savedJokes.map(j => `<div style="margin-bottom:1rem;">${j}</div>`).join('')
+      : `<div class="empty-message">No saved jokes.</div>`;
+    showSavedContainer(
+      html,
+      'Saved Jokes',
+      () => {
+        localStorage.removeItem('savedJokes');
+        showSavedContainer(`<div class="empty-message">No saved jokes.</div>`, 'Saved Jokes');
+      }
+    );
   });
 
   // 📚 Public API
@@ -236,4 +294,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelector('#public-api button').addEventListener('click', getPublicApiInfo);
+
+  function showSavedContainer(contentHtml, title = 'Saved', onReset) {
+    const old = document.getElementById('saved-modal');
+    if (old) old.remove();
+
+    const container = document.createElement('div');
+    container.id = 'saved-modal';
+    // Remove vertical centering, use top center
+    container.style.position = 'fixed';
+    container.style.top = '40px';
+    container.style.left = '50%';
+    container.style.transform = 'translateX(-50%)';
+    container.style.background = 'var(--card)';
+    container.style.color = 'var(--text)';
+    container.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)';
+    container.style.borderRadius = '12px';
+    container.style.padding = '2rem 1.5rem 1.5rem 1.5rem';
+    container.style.zIndex = '9999';
+    container.style.minWidth = '340px';
+    container.style.maxWidth = '600px';
+    container.style.width = '90vw';
+    container.style.maxHeight = '80vh';
+    container.style.overflowY = 'auto';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.alignItems = 'center';
+    container.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:1rem;">
+        <strong style="font-size:1.2rem;">${title}</strong>
+        <div>
+          ${onReset ? `<button id="reset-saved-modal" style="background:#e74c3c;color:white;border:none;border-radius:4px;padding:0.3rem 0.8rem;cursor:pointer;margin-right:0.5rem;">Reset</button>` : ''}
+          <button id="close-saved-modal" style="background:var(--accent);color:white;border:none;border-radius:4px;padding:0.3rem 0.8rem;cursor:pointer;">Close</button>
+        </div>
+      </div>
+      <div style="width:100%;display:flex;flex-direction:column;align-items:center;margin-top:0.5rem;">
+        ${contentHtml}
+      </div>
+    `;
+    document.body.appendChild(container);
+    document.getElementById('close-saved-modal').onclick = () => container.remove();
+    if (onReset) document.getElementById('reset-saved-modal').onclick = onReset;
+  }
 });
