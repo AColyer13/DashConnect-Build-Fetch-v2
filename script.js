@@ -34,6 +34,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 🎤 Voice Input
+  function voiceInput(inputId) {
+    const input = document.getElementById(inputId);
+    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Speech recognition is not supported in this browser.');
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      input.value = transcript;
+    };
+    recognition.onerror = function(event) {
+      alert('Speech recognition error: ' + event.error);
+    };
+    recognition.start();
+  }
+
   document.getElementById('weather-voice').addEventListener('click', () => voiceInput('weather-city-input'));
   document.getElementById('github-voice').addEventListener('click', () => voiceInput('github-user-input'));
 
