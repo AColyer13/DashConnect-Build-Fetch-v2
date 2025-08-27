@@ -38,9 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById(inputId);
     let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert('Speech recognition is not supported in this browser.');
+      alert('Speech recognition is not supported in this browser. Try Chrome or Edge on desktop.');
       return;
     }
+
+    // Visual indicator
+    const oldPlaceholder = input.placeholder;
+    input.placeholder = 'Listening...';
+    input.disabled = true;
+
     const recognition = new SpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
@@ -49,11 +55,32 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.onresult = function(event) {
       const transcript = event.results[0][0].transcript;
       input.value = transcript;
+      input.placeholder = oldPlaceholder;
+      input.disabled = false;
     };
     recognition.onerror = function(event) {
       alert('Speech recognition error: ' + event.error);
+      input.placeholder = oldPlaceholder;
+      input.disabled = false;
     };
-    recognition.start();
+    recognition.onend = function() {
+      input.placeholder = oldPlaceholder;
+      input.disabled = false;
+    };
+
+    // Request microphone permission before starting
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(() => recognition.start())
+        .catch(() => {
+          alert('Microphone access denied.');
+          input.placeholder = oldPlaceholder;
+          input.disabled = false;
+        });
+    } else {
+      // Fallback: just start recognition (older browsers)
+      recognition.start();
+    }
   }
 
   document.getElementById('weather-voice').addEventListener('click', () => voiceInput('weather-city-input'));
