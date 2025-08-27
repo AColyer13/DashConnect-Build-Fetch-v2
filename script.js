@@ -115,10 +115,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 🐱 Cat API
+  async function loadCatBreeds() {
+    const select = document.getElementById('cat-breed-select');
+    const res = await fetch('https://api.thecatapi.com/v1/breeds');
+    const data = await res.json();
+    data.forEach(breed => {
+      const option = document.createElement('option');
+      option.value = breed.id;
+      option.textContent = breed.name;
+      select.appendChild(option);
+    });
+  }
+
   async function getCatImage() {
+    const breedId = document.getElementById('cat-breed-select').value;
     const output = document.getElementById('cat-output');
     output.innerHTML = 'Loading...';
-    const res = await fetch('https://api.thecatapi.com/v1/images/search');
+    let url = 'https://api.thecatapi.com/v1/images/search';
+    if (breedId) {
+      url += `?breed_ids=${breedId}`;
+    }
+    const res = await fetch(url);
     const data = await res.json();
     output.innerHTML = `<img src="${data[0].url}" alt="Cat" />`;
   }
@@ -339,4 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-saved-modal').onclick = () => container.remove();
     if (onReset) document.getElementById('reset-saved-modal').onclick = onReset;
   }
+
+  // On page load, populate breed dropdowns
+  loadDogBreeds();
+  loadCatBreeds();
 });
