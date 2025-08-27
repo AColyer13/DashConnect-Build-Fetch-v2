@@ -68,14 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // 🐶 Dog API
   async function loadDogBreeds() {
     const select = document.getElementById('dog-breed-select');
-    const res = await fetch('https://dog.ceo/api/breeds/list/all');
-    const data = await res.json();
-    Object.keys(data.message).forEach(breed => {
+    try {
+      const res = await fetch('https://dog.ceo/api/breeds/list/all');
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+      Object.keys(data.message).forEach(breed => {
+        const option = document.createElement('option');
+        option.value = breed;
+        option.textContent = breed;
+        select.appendChild(option);
+      });
+    } catch {
       const option = document.createElement('option');
-      option.value = breed;
-      option.textContent = breed;
+      option.value = '';
+      option.textContent = 'Failed to load breeds';
       select.appendChild(option);
-    });
+    }
   }
 
   async function getDogImage() {
@@ -117,14 +125,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // 🐱 Cat API
   async function loadCatBreeds() {
     const select = document.getElementById('cat-breed-select');
-    const res = await fetch('https://api.thecatapi.com/v1/breeds');
-    const data = await res.json();
-    data.forEach(breed => {
+    try {
+      const res = await fetch('https://api.thecatapi.com/v1/breeds');
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+      data.forEach(breed => {
+        const option = document.createElement('option');
+        option.value = breed.id;
+        option.textContent = breed.name;
+        select.appendChild(option);
+      });
+    } catch {
       const option = document.createElement('option');
-      option.value = breed.id;
-      option.textContent = breed.name;
+      option.value = '';
+      option.textContent = 'Failed to load breeds';
       select.appendChild(option);
-    });
+    }
   }
 
   async function getCatImage() {
