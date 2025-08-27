@@ -34,18 +34,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 🎤 Voice Input
-  function voiceInput(targetId) {
-    const input = document.getElementById(targetId);
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-    recognition.start();
-    recognition.onresult = e => {
-      input.value = e.results[0][0].transcript;
-    };
-  }
+  document.getElementById('weather-voice').addEventListener('click', () => voiceInput('weather-city-input'));
+  document.getElementById('github-voice').addEventListener('click', () => voiceInput('github-user-input'));
 
-  document.querySelector('#weather-api button:nth-of-type(1)').addEventListener('click', () => voiceInput('weather-city-input'));
-  document.querySelector('#github-api button:nth-of-type(1)').addEventListener('click', () => voiceInput('github-user-input'));
+  // 🐶 Dog API
+  document.getElementById('get-dog').addEventListener('click', getDogImage);
+
+  // 🐱 Cat API
+  document.getElementById('get-cat').addEventListener('click', getCatImage);
+
+  // ☀️ Weather API
+  document.getElementById('get-weather').addEventListener('click', getWeather);
+
+  // 💱 Currency API
+  document.getElementById('convert-currency').addEventListener('click', getExchangeRates);
+
+  // 🎬 Movies API
+  document.getElementById('get-movies').addEventListener('click', () => getMovies(moviePage));
+  document.getElementById('next-movie').addEventListener('click', () => getMovies(++moviePage));
+  document.getElementById('prev-movie').addEventListener('click', () => {
+    if (moviePage > 1) getMovies(--moviePage);
+  });
+
+  // 🧑‍💻 GitHub API
+  document.getElementById('search-github').addEventListener('click', getGitHubUser);
+
+  // 🤣 Joke API
+  document.getElementById('get-joke').addEventListener('click', getJoke);
+
+  // 📚 Public API
+  document.getElementById('show-public-api').addEventListener('click', getPublicApiInfo);
 
   // 🐶 Dog API
   async function loadDogBreeds() {
@@ -70,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     output.innerHTML = `<img src="${data.message}" alt="Dog" />`;
   }
 
-  document.querySelector('#dog-api button:nth-of-type(1)').addEventListener('click', getDogImage);
   // Save Dog (store array)
   document.getElementById('save-dog').addEventListener('click', () => {
     const img = document.querySelector('#dog-output img');
@@ -106,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     output.innerHTML = `<img src="${data[0].url}" alt="Cat" />`;
   }
 
-  document.querySelector('#cat-api button:nth-of-type(1)').addEventListener('click', getCatImage);
   // Save Cat (store array)
   document.getElementById('save-cat').addEventListener('click', () => {
     const img = document.querySelector('#cat-output img');
@@ -176,8 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  document.querySelector('#weather-api button:nth-of-type(2)').addEventListener('click', getWeather);
-
   // 💱 Currency API
   async function getExchangeRates() {
     const amount = parseFloat(document.getElementById('amount').value);
@@ -190,8 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const rate = data.rates[target];
     output.innerHTML = `${amount} USD = ${(amount * rate).toFixed(2)} ${target}`;
   }
-
-  document.querySelector('#currency-api button').addEventListener('click', getExchangeRates);
 
   // 🎬 Movies API with Pagination
   let moviePage = 1;
@@ -209,12 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  document.querySelector('#movies-api button:nth-of-type(1)').addEventListener('click', () => getMovies(moviePage));
-  document.getElementById('next-movie').addEventListener('click', () => getMovies(++moviePage));
-  document.getElementById('prev-movie').addEventListener('click', () => {
-    if (moviePage > 1) getMovies(--moviePage);
-  });
-
   // 🧑‍💻 GitHub API
   async function getGitHubUser() {
     const username = document.getElementById('github-user-input').value.trim();
@@ -231,8 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  document.querySelector('#github-api button:nth-of-type(2)').addEventListener('click', getGitHubUser);
-
   // 🤣 Joke API
   async function getJoke() {
     const category = document.getElementById('joke-category-select').value;
@@ -244,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
     output.innerHTML = data.joke || `${data.setup}<br><strong>${data.delivery}</strong>`;
   }
 
-  document.querySelector('#joke-api button:nth-of-type(1)').addEventListener('click', getJoke);
   // Save Joke
   document.getElementById('save-joke').addEventListener('click', () => {
     const joke = document.getElementById('joke-output').innerText;
