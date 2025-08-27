@@ -92,31 +92,19 @@ input, select {
   border-radius: 4px;
 }
 
-.output {
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  animation: fadeIn 0.4s ease-in;
-}
-
-/* Dog & Cat image styling */
-#dog-output img,
-#cat-output img {
-  width: 100%;
-  max-width: 250px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 12px;
-  object-fit: cover;
-}
-
 /* Movies output styling */
 #movies-output {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
   justify-items: center;
   align-items: start;
+}
+
+@media (min-width: 600px) {
+  #movies-output {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 #movies-output > div {
@@ -127,6 +115,7 @@ input, select {
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   padding: 0.5rem;
   text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 #movies-output img {
@@ -146,6 +135,30 @@ input, select {
   margin-top: 0.3rem;
   font-size: 0.95rem;
   font-weight: normal;
+}
+
+/* Dog & Cat image styling */
+#dog-output img,
+#cat-output img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Output area styling for all sections */
+.output {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  animation: fadeIn 0.4s ease-in;
+  word-break: break-word;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #saved-modal {
