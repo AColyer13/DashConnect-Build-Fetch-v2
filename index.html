@@ -406,8 +406,29 @@
       <button id="get-movie-trivia">Get Movie Trivia</button>
       <div id="movie-trivia-output" class="output"></div>
     </div>
-  </div>
+
+<!-- 🎮 Video Game Database -->
+<div class="grid-item" data-id="videogames" draggable="true">
+  <h2>🎮 Video Game Database</h2>
+
+  <label for="vg-platform-select">Select Platform:</label>
+  <select id="vg-platform-select">
+    <option value="">All Platforms</option>
+  </select>
+
+  <br><br>
+
+  <label for="vg-title-input">Game Title:</label>
+  <input type="text" id="vg-title-input" placeholder="Enter game title..." />
+
+  <br><br>
+
+  <button id="get-vg-games">Get Game Info</button>
+  <div id="vg-games-output" class="output"></div>
+</div>
+
   <div id="saved-modal" style="display:none;"></div>
+  
   <script src="script.js"></script>
 </body>
 </html>

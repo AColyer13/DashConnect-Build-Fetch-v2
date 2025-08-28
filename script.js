@@ -216,7 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(url);
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      output.innerHTML = `<img src="${data[0].url}" alt="Cat" />`;
+      // Proxy the image URL to avoid CORS issues
+      const imgUrl = data[0].url ? `https://corsproxy.io/?${data[0].url}` : '';
+      output.innerHTML = imgUrl
+        ? `<img src="${imgUrl}" alt="Cat" />`
+        : '<span>No image available.</span>';
     } catch {
       output.textContent = 'Error fetching cat image.';
     }
@@ -503,26 +507,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================
   // 📚 Public APIs
   // ========================================
-  document.getElementById('show-public-api').addEventListener('click', getPublicApiInfo);
-
   async function getPublicApiInfo() {
     const output = document.getElementById('public-api-output');
     output.innerHTML = 'Loading...';
     try {
-      // Using a simple list of public APIs since the original API has CORS issues
-      const apis = [
-        { API: 'JSONPlaceholder', Description: 'Fake REST API for testing', Link: 'https://jsonplaceholder.typicode.com' },
-        { API: 'GitHub API', Description: 'REST API for GitHub', Link: 'https://api.github.com' },
-        { API: 'OpenWeatherMap', Description: 'Weather API', Link: 'https://openweathermap.org/api' },
-        { API: 'The Movie Database', Description: 'Movies and TV shows API', Link: 'https://www.themoviedb.org/documentation/api' },
-        { API: 'PokéAPI', Description: 'Pokémon data API', Link: 'https://pokeapi.co' }
-      ];
-      const api = apis[Math.floor(Math.random() * apis.length)];
-      output.innerHTML = `<strong>${api.API}</strong><br>${api.Description}<br><a href="${api.Link}" target="_blank">Visit</a>`;
+      const res = await fetch('https://raw.githubusercontent.com/public-apis/public-apis/master/README.md');
+      const text = await res.text();
+      const matches = [...text.matchAll(/\|\s*\[(.*?)\]\((.*?)\)\s*\|\s*(.*?)\s*\|/g)];
+      if (!matches.length) {
+        output.textContent = 'No API found.';
+        return;
+      }
+      const pick = matches[Math.floor(Math.random() * matches.length)];
+      const name = pick[1];
+      const url = pick[2];
+      const desc = pick[3];
+      output.innerHTML = `<strong><a href="${url}" target="_blank">${name}</a></strong><br>${desc}`;
     } catch {
-      output.textContent = 'Error fetching public API.';
+      output.textContent = 'Error fetching public API info.';
     }
   }
+
+  document.getElementById('show-public-api').addEventListener('click', getPublicApiInfo);
 
   // ========================================
   // 💡 Advice
@@ -554,7 +560,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=FrUiRHQ1NxpoweJFpWlZc1bp6zNtos59AlV30wYL');
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      output.innerHTML = `<strong>${data.title}</strong><br><img src="${data.url}" alt="NASA APOD" /><br>${data.explanation.slice(0, 100)}...`;
+      // Proxy image URL to avoid CORS issues
+      const imgUrl = data.url ? `https://corsproxy.io/?${data.url}` : '';
+      output.innerHTML = `<strong>${data.title}</strong><br><img src="${imgUrl}" alt="NASA APOD" /><br>${data.explanation.slice(0, 100)}...`;
     } catch {
       output.textContent = 'Error fetching NASA APOD.';
     }
@@ -568,7 +576,9 @@ document.addEventListener('DOMContentLoaded', () => {
   async function getTrivia(outputId) {
     const output = document.getElementById(outputId);
     output.innerHTML = 'Loading...';
-    while (true) {
+    let attempts = 0;
+    const maxAttempts = 5;
+    while (attempts < maxAttempts) {
       try {
         const res = await fetch('https://opentdb.com/api.php?amount=1');
         if (!res.ok) throw new Error('API error');
@@ -587,12 +597,17 @@ document.addEventListener('DOMContentLoaded', () => {
           output.innerHTML = `<strong>${question}</strong><br>Answer: <span style="color:var(--accent)">${answer}</span>`;
           return; // Success, exit the function
         } else {
-          // No results, try again immediately
+          // No results, try again after delay
+          await new Promise(resolve => setTimeout(resolve, 1200));
+          attempts++;
         }
       } catch (err) {
-        // Error occurred, try again immediately
+        // Error occurred, try again after delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        attempts++;
       }
     }
+    output.textContent = 'Trivia API is rate-limited. Please try again later.';
   }
 
   // ========================================
@@ -608,7 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let url = 'https://opentdb.com/api.php?amount=1&type=multiple';
     if (category) url += `&category=${category}`;
     if (difficulty) url += `&difficulty=${difficulty}`;
-    while (true) {
+    let attempts = 0;
+    const maxAttempts = 5;
+    while (attempts < maxAttempts) {
       try {
         const res = await fetch(url);
         if (!res.ok) throw new Error('API error');
@@ -627,12 +644,17 @@ document.addEventListener('DOMContentLoaded', () => {
           output.innerHTML = `<strong>${question}</strong><br>Answer: <span style="color:var(--accent)">${answer}</span>`;
           return; // Success, exit the function
         } else {
-          // No results, try again immediately
+          // No results, try again after delay
+          await new Promise(resolve => setTimeout(resolve, 1200));
+          attempts++;
         }
       } catch (err) {
-        // Error occurred, try again immediately
+        // Error occurred, try again after delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        attempts++;
       }
     }
+    output.textContent = 'Trivia API is rate-limited. Please try again later.';
   }
 
   // ========================================
@@ -898,7 +920,9 @@ document.addEventListener('DOMContentLoaded', () => {
   async function getSpaceFact() {
     const output = document.getElementById('space-fact-output');
     output.innerHTML = 'Loading...';
-    while (true) {
+    let attempts = 0;
+    const maxAttempts = 5;
+    while (attempts < maxAttempts) {
       try {
         const res = await fetch('https://opentdb.com/api.php?amount=1&category=17');
         if (!res.ok) throw new Error('API error');
@@ -917,12 +941,17 @@ document.addEventListener('DOMContentLoaded', () => {
           output.innerHTML = `<strong>${question}</strong><br>Answer: <span style="color:var(--accent)">${answer}</span>`;
           return; // Success, exit the function
         } else {
-          // No results, try again immediately
+          // No results, try again after delay
+          await new Promise(resolve => setTimeout(resolve, 1200));
+          attempts++;
         }
       } catch (err) {
-        // Error occurred, try again immediately
+        // Error occurred, try again after delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        attempts++;
       }
     }
+    output.textContent = 'Trivia API is rate-limited. Please try again later.';
   }
 
   // ========================================
@@ -1186,7 +1215,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('sports-trivia-output');
     button.disabled = true;
     output.innerHTML = 'Loading...';
-    while (true) {
+    let attempts = 0;
+    const maxAttempts = 5;
+    while (attempts < maxAttempts) {
       try {
         const res = await fetch('https://opentdb.com/api.php?amount=1&category=21&type=multiple');
         if (!res.ok) throw new Error('API error');
@@ -1206,12 +1237,18 @@ document.addEventListener('DOMContentLoaded', () => {
           button.disabled = false;
           return; // Success, exit the function
         } else {
-          // No results, try again immediately
+          // No results, try again after delay
+          await new Promise(resolve => setTimeout(resolve, 1200));
+          attempts++;
         }
       } catch (err) {
-        // Error occurred, try again immediately
+        // Error occurred, try again after delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        attempts++;
       }
     }
+    output.textContent = 'Trivia API is rate-limited. Please try again later.';
+    button.disabled = false;
   }
 
   // ========================================
@@ -1224,7 +1261,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('movie-trivia-output');
     button.disabled = true;
     output.innerHTML = 'Loading...';
-    while (true) {
+    let attempts = 0;
+    const maxAttempts = 5;
+    while (attempts < maxAttempts) {
       try {
         const res = await fetch('https://opentdb.com/api.php?amount=1&category=11&type=multiple');
         if (!res.ok) throw new Error('API error');
@@ -1244,12 +1283,18 @@ document.addEventListener('DOMContentLoaded', () => {
           button.disabled = false;
           return; // Success, exit the function
         } else {
-          // No results, try again immediately
+          // No results, try again after delay
+          await new Promise(resolve => setTimeout(resolve, 1200));
+          attempts++;
         }
       } catch (err) {
-        // Error occurred, try again immediately
+        // Error occurred, try again after delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        attempts++;
       }
     }
+    output.textContent = 'Trivia API is rate-limited. Please try again later.';
+    button.disabled = false;
   }
 
   // ========================================
@@ -1351,6 +1396,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ========================================
+  // 🎮 Video Game Database (RAWG)
+  // ========================================
+
+  async function loadVGPlatforms() {
+    const select = document.getElementById('vg-platform-select');
+    if (!select) return;
+    try {
+      const res = await fetch(`https://api.rawg.io/api/platforms?key=01ae668b962644f78afb895eebd326c9`);
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+      data.results.forEach(platform => {
+        const option = document.createElement('option');
+        option.value = platform.id;
+        option.textContent = platform.name;
+        select.appendChild(option);
+      });
+    } catch {
+      const option = document.createElement('option');
+      option.value = '';
+      option.textContent = 'Failed to load platforms';
+      select.appendChild(option);
+    }
+  }
+
+async function getVGGames() {
+  const platformId = document.getElementById('vg-platform-select').value;
+  const title = document.getElementById('vg-title-input').value.trim();
+  const output = document.getElementById('vg-games-output');
+  
+  if (!output) return;
+  output.innerHTML = 'Loading...';
+
+  let url = `https://api.rawg.io/api/games?key=01ae668b962644f78afb895eebd326c9&page_size=5`;
+  if (platformId) url += `&platforms=${platformId}`;
+  if (title) url += `&search=${encodeURIComponent(title)}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+
+    if (!data.results || data.results.length === 0) {
+      output.textContent = 'No games found.';
+      return;
+    }
+
+    // Build HTML output
+    output.innerHTML = data.results.map(game => {
+      // Proxy image URL to avoid CORS issues
+      const imgSrc = game.background_image ? `https://corsproxy.io/?${game.background_image}` : '';
+      const metacritic = game.metacritic ? game.metacritic : 'N/A';
+      const description = game.slug ? `https://rawg.io/games/${game.slug}` : 'No description available';
+
+      return `
+        <div style="margin-bottom:1rem; padding:10px; border:1px solid #ccc; border-radius:8px;">
+          ${imgSrc
+            ? `<img src="${imgSrc}" alt="${game.name}" style="max-width:150px;border-radius:8px;display:block;margin-bottom:0.5rem;" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div style=&quot;color:#888;&quot;>Image unavailable</div>');"/>`
+            : `<div style="color:#888;">No image available</div>`
+          }
+          <strong>${game.name}</strong><br>
+          Released: ${game.released || 'N/A'}<br>
+          Metacritic: ${metacritic}<br>
+          <a href="${description}" target="_blank" style="color:blue;">View Description</a>
+        </div>
+      `;
+    }).join('');
+  } catch (error) {
+    output.textContent = 'Error fetching games.';
+    console.error(error);
+  }
+}
+
+document.getElementById('get-vg-games').addEventListener('click', getVGGames);
+
+  // ========================================
   // 🖼️ Saved Modal
   // ========================================
   function showSavedContainer(html, title, type) {
@@ -1377,4 +1497,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================
   loadDogBreeds();
   loadCatBreeds();
+  loadVGPlatforms();
 });
