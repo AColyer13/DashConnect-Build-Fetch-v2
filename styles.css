@@ -153,32 +153,43 @@ header {
   text-shadow: 0 1px 4px hsla(220, 40%, 30%, 0.06);
 }
 
-/* ===== Buttons ===== */
+/* ===== Buttons (Glassmorphism) ===== */
 button {
   margin-top: 0.5rem;
   padding: 0.55rem 1.4rem;
-  background: linear-gradient(90deg, var(--accent-indigo) 60%, var(--accent-teal) 100%);
+  background: hsla(220, 80%, 60%, 0.22); /* translucent indigo */
   color: #fff;
   border: none;
   border-radius: 999px;
   font-weight: 500;
   font-size: 1.05rem;
   cursor: pointer;
-  box-shadow: 0 2px 8px hsla(220, 40%, 30%, 0.10);
+  box-shadow: 0 4px 24px hsla(220, 60%, 30%, 0.18), 0 1.5px 0 hsla(0,0%,100%,0.18) inset;
+  backdrop-filter: blur(18px) saturate(180%);
   transition: var(--transition), transform 120ms cubic-bezier(.4,.2,.2,1);
   outline: none;
   position: relative;
+  border: 1px solid hsla(0,0%,100%,0.28); /* subtle inner border */
+}
+button:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1px solid hsla(0,0%,100%,0.22);
+  z-index: 0;
 }
 button:active {
   transform: scale(0.97);
-  box-shadow: 0 1px 4px hsla(220, 40%, 30%, 0.08);
+  box-shadow: 0 2px 12px hsla(220, 60%, 30%, 0.12);
 }
 button:hover, button:focus {
-  background: linear-gradient(90deg, var(--accent-teal) 60%, var(--accent-coral) 100%);
-  box-shadow: 0 4px 16px hsla(220, 40%, 30%, 0.16);
+  background: hsla(220, 80%, 60%, 0.32);
+  box-shadow: 0 8px 32px hsla(220, 60%, 30%, 0.22);
 }
 button:focus {
-  box-shadow: var(--focus-glow), 0 4px 16px hsla(220, 40%, 30%, 0.16);
+  box-shadow: var(--focus-glow), 0 8px 32px hsla(220, 60%, 30%, 0.22);
 }
 
 /* ===== Inputs & Selects ===== */
