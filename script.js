@@ -425,12 +425,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
       const top = data.results.slice(0, 3);
-      output.innerHTML = top.map(m => `
-        <div>
-          <img src="https://image.tmdb.org/t/p/w200${m.poster_path}" alt="${m.title}" />
-          <strong>${m.title}</strong>
+      // Wrap movies in a flex container for styling
+      output.innerHTML = `
+        <div class="movies-list" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+          ${top.map(m => `
+            <div style="flex:1 1 100px;max-width:120px;text-align:center;">
+              <img src="https://image.tmdb.org/t/p/w200${m.poster_path}" alt="${m.title}" style="width:100%;border-radius:8px;" />
+              <strong style="font-size:0.95em;">${m.title}</strong>
+            </div>
+          `).join('')}
         </div>
-      `).join('');
+      `;
     } catch {
       output.textContent = 'Error fetching movies.';
     }
@@ -637,13 +642,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================
   // 🔢 Number Fact
   // ========================================
-  document.getElementById('get-number').addEventListener('click', getNumberFact);
+  const numberFactBtn = document.getElementById('get-number-fact');
+  if (numberFactBtn) {
+    numberFactBtn.addEventListener('click', getNumberFact);
+  }
 
   async function getNumberFact() {
-    const number = document.getElementById('number-input').value.trim();
-    const output = document.getElementById('number-output');
+    const output = document.getElementById('number-fact-output');
+    const input = document.getElementById('number-input');
     output.innerHTML = 'Loading...';
-    const url = number ? `https://numbersapi.com/${number}` : 'https://numbersapi.com/random/trivia';
+    let num = input && input.value ? input.value.trim() : '';
+    let url;
+    if (num) {
+      url = `https://corsproxy.io/?http://numbersapi.com/${num}/trivia`;
+    } else {
+      url = 'https://corsproxy.io/?http://numbersapi.com/random/trivia';
+    }
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error('API error');
@@ -1245,19 +1259,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================
   // ➗ Math Fact
   // ========================================
-  document.getElementById('get-math-fact').addEventListener('click', getMathFact);
+  const button = document.getElementById('get-math-fact');
+  if (!button) {
+    console.error('Button element not found');
+    return;
+  }
+  button.addEventListener('click', getMathFact);
 
-  async function getMathFact() {
+  async function getMathFact(attempt = 1, maxAttempts = 3) {
     const output = document.getElementById('math-fact-output');
+    if (!output) {
+      console.error('Output element not found');
+      return;
+    }
     output.innerHTML = 'Loading...';
     try {
       const num = Math.floor(Math.random() * 100) + 1;
-      const res = await fetch(`https://numbersapi.com/${num}/math`);
+      const res = await fetch(`https://corsproxy.io/?http://numbersapi.com/${num}/math`);
       if (!res.ok) throw new Error('API error');
       const text = await res.text();
-      output.innerHTML = `<strong>${text}</strong>`;
-    } catch {
-      output.textContent = 'Error fetching math fact.';
+      if (!text) throw new Error('Empty response from API');
+      output.innerHTML = `<p><strong>${text}</strong></p>`;
+    } catch (error) {
+      if (attempt < maxAttempts) {
+        return getMathFact(attempt + 1, maxAttempts);
+      }
+      output.textContent = `Error fetching math fact: ${error.message}`;
     }
   }
 
@@ -1355,4 +1382,3 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDogBreeds();
   loadCatBreeds();
 });
-
