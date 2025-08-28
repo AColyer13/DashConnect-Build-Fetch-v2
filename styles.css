@@ -97,46 +97,33 @@ input, select {
 
 #movies-output {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Always 3 columns, never stack */
+  gap: 0.5rem;
   justify-items: center;
   align-items: start;
 }
 
-@media (min-width: 600px) {
-  #movies-output {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 #movies-output > div {
   width: 100%;
-  max-width: 120px;
+  max-width: 100px; /* Make movie cards smaller for mobile */
   background: var(--card);
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  padding: 0.5rem;
+  padding: 0.3rem;
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 #movies-output img {
   width: 100%;
-  max-width: 80px;
+  max-width: 80px; /* Smaller images */
   aspect-ratio: 60/85;
   border-radius: 8px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   object-fit: cover;
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-#movies-output strong {
-  display: block;
-  margin-top: 0.3rem;
-  font-size: 0.95rem;
-  font-weight: normal;
 }
 
 #dog-output img,
@@ -293,7 +280,12 @@ input, select {
   height: auto;
   border-radius: 12px;
   display: block;
-  margin: auto;
+margin: auto;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {

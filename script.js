@@ -425,17 +425,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
       const top = data.results.slice(0, 3);
-      // Wrap movies in a flex container for styling
-      output.innerHTML = `
-        <div class="movies-list" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
-          ${top.map(m => `
-            <div style="flex:1 1 100px;max-width:120px;text-align:center;">
-              <img src="https://image.tmdb.org/t/p/w200${m.poster_path}" alt="${m.title}" style="width:100%;border-radius:8px;" />
-              <strong style="font-size:0.95em;">${m.title}</strong>
-            </div>
-          `).join('')}
+      // Render movies as direct children for grid layout
+      output.innerHTML = top.map(m => `
+        <div>
+          <img src="https://image.tmdb.org/t/p/w200${m.poster_path}" alt="${m.title}" />
+          <strong style="font-size:0.95em;">${m.title}</strong>
         </div>
-      `;
+      `).join('');
     } catch {
       output.textContent = 'Error fetching movies.';
     }
