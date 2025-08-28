@@ -24,9 +24,10 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--accent);
+  background: rgba(74, 144, 226, 0.72); /* make accent blue more transparent */
   color: white;
   padding: 1rem;
+  backdrop-filter: blur(6px); /* glass effect for header */
 }
 
 .main-title {
@@ -80,10 +81,10 @@ button {
   border: none; /* remove border */
   border-radius: 4px;
   cursor: pointer;
-  opacity: 0.98;
+  opacity: 0.99;
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-  background: rgba(74, 144, 226, 0.72); /* just a tad more prominent */
+  background: rgba(74, 144, 226, 0.78); /* just a tad more prominent */
   transition: background 0.2s, opacity 0.2s;
 }
 
