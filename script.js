@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const number = document.getElementById('number-input').value.trim();
     const output = document.getElementById('number-output');
     output.innerHTML = 'Loading...';
-    const url = number ? `http://numbersapi.com/${number}` : 'http://numbersapi.com/random/trivia';
+    const url = number ? `https://numbersapi.com/${number}` : 'https://numbersapi.com/random/trivia';
     try {
       const res = await fetch(url);
       if (!res.ok) throw new Error('API error');
@@ -1252,7 +1252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     output.innerHTML = 'Loading...';
     try {
       const num = Math.floor(Math.random() * 100) + 1;
-      const res = await fetch(`http://numbersapi.com/${num}/math`);
+      const res = await fetch(`https://numbersapi.com/${num}/math`);
       if (!res.ok) throw new Error('API error');
       const text = await res.text();
       output.innerHTML = `<strong>${text}</strong>`;
@@ -1355,3 +1355,4 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDogBreeds();
   loadCatBreeds();
 });
+
