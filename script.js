@@ -178,10 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = savedDogs.length
       ? savedDogs.map(src => `<img src="${src}" alt="Saved Dog" style="width:100%;max-width:250px;border-radius:12px;display:block;margin:auto;margin-bottom:1rem;" />`).join('')
       : `<div class="empty-message">No saved dog images.</div>`;
-    showSavedContainer(html, 'Saved Dogs', () => {
-      localStorage.removeItem('savedDogs');
-      showSavedContainer(`<div class="empty-message">No saved dog images.</div>`, 'Saved Dogs');
-    });
+    showSavedContainer(html, 'Saved Dogs', 'savedDogs');
   });
 
   // ========================================
@@ -239,10 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = savedCats.length
       ? savedCats.map(src => `<img src="${src}" alt="Saved Cat" style="width:100%;max-width:250px;border-radius:12px;display:block;margin:auto;margin-bottom:1rem;" />`).join('')
       : `<div class="empty-message">No saved cat images.</div>`;
-    showSavedContainer(html, 'Saved Cats', () => {
-      localStorage.removeItem('savedCats');
-      showSavedContainer(`<div class="empty-message">No saved cat images.</div>`, 'Saved Cats');
-    });
+    showSavedContainer(html, 'Saved Cats', 'savedCats');
   });
 
   // ========================================
@@ -487,10 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = savedJokes.length
       ? savedJokes.map(j => `<div style="margin-bottom:1rem;">${j}</div>`).join('')
       : `<div class="empty-message">No saved jokes.</div>`;
-    showSavedContainer(html, 'Saved Jokes', () => {
-      localStorage.removeItem('savedJokes');
-      showSavedContainer(`<div class="empty-message">No saved jokes.</div>`, 'Saved Jokes');
-    });
+    showSavedContainer(html, 'Saved Jokes', 'savedJokes');
   });
 
   async function getJoke() {
@@ -1339,16 +1330,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================
   // 🖼️ Saved Modal
   // ========================================
-  function showSavedContainer(html, title, onReset) {
+  function showSavedContainer(html, title, type) {
     const modal = document.getElementById('saved-modal');
     modal.style.display = 'block';
     modal.innerHTML = `
-      <h2>${title}</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="margin: 0;">${title}</h2>
+        <button style="color: red; background: none; border: 1px solid red; padding: 5px 10px; cursor: pointer;" onclick="window.resetSaved('${type}', '${title}')">Reset</button>
+      </div>
       ${html}
       <button onclick="this.parentElement.style.display='none';">Close</button>
-      <button onclick="(${onReset})();">Reset</button>
     `;
   }
+
+  // Add this global function for resetting
+  window.resetSaved = function(type, title) {
+    localStorage.removeItem(type);
+    showSavedContainer(`<div class="empty-message">No saved ${title.toLowerCase()}.</div>`, title, type);
+  };
 
   // ========================================
   // Initialize
