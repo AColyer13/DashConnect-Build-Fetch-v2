@@ -48,7 +48,7 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
   padding: 1rem;
-  background: var(--bg); /* Ensure background is visible */
+  background: var(--bg);
 }
 
 .grid-item {
@@ -57,7 +57,7 @@ header {
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, opacity 0.3s ease;
-  min-height: 220px; /* Ensure items are visible even if empty */
+  min-height: 220px;
   display: block;
 }
 
@@ -95,7 +95,6 @@ input, select {
   border-radius: 4px;
 }
 
-/* Movies output styling */
 #movies-output {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -140,19 +139,83 @@ input, select {
   font-weight: normal;
 }
 
-/* Dog & Cat image styling */
 #dog-output img,
-#cat-output img {
+#cat-output img,
+#fox-output img,
+#duck-output img,
+#food-joke-output img,
+#cocktail-output img,
+#nasa-output img,
+#pokemon-output img,
+#user-output img,
+#superhero-output img {
   width: 100%;
   max-width: 250px;
   height: auto;
   display: block;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   border-radius: 12px;
   object-fit: cover;
 }
 
-/* Output area styling for all sections */
+#cocktail-output img {
+  max-width: 120px;
+}
+
+#nasa-output img {
+  max-width: 350px;
+}
+
+#pokemon-output img {
+  max-width: 120px;
+  background: #f6f6f6;
+}
+
+#user-output img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+#kanye-output,
+#dog-fact-output,
+#cat-fact-output,
+#food-joke-output,
+#fox-output,
+#duck-output,
+#space-fact-output,
+#cocktail-output,
+#age-output,
+#gender-output,
+#nationalize-output,
+#quote-output,
+#advice-output,
+#activity-output,
+#trivia-output,
+#number-output,
+#chuck-output,
+#ip-output,
+#dad-joke-output,
+#random-trivia-output,
+#math-fact-output,
+#cocktail-ingredient-output,
+#emoji-output,
+#astronomy-fact-output,
+#animal-fact-output,
+#country-output,
+#history-output,
+#music-quote-output,
+#book-output {
+  text-align: center;
+}
+
+#age-name-input,
+#gender-name-input,
+#nationalize-name-input,
+#number-input {
+  margin-bottom: 0.5rem;
+}
+
 .output {
   margin-top: 1rem;
   font-size: 0.95rem;
@@ -170,7 +233,7 @@ input, select {
   flex-direction: column;
   align-items: center;
   position: fixed;
-  top: 40px; /* Top center, not vertically centered */
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   min-width: 340px;
@@ -220,10 +283,17 @@ input, select {
   }
 }
 
-/* Make images in modal responsive */
 #saved-modal img {
   max-width: 98vw;
   height: auto;
+}
+
+.meme-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin: auto;
 }
 
 @keyframes fadeIn {

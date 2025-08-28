@@ -1,86 +1,149 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Dashboard Project</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript API Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
     <h1 class="main-title">JavaScript API Dashboard</h1>
     <button id="theme-toggle">🌗 Toggle Theme</button>
   </header>
-
-  <noscript>
-    <div style="color: red; text-align: center; margin: 2rem;">
-      JavaScript is required for this dashboard to work.
-    </div>
-  </noscript>
-
-  <div class="grid-container" id="dashboard" draggable="false">
-    <!-- DOG API -->
-    <section class="grid-item" id="dog-api" draggable="true">
+  <div id="no-js" style="display: none;">
+    JavaScript is required for this dashboard to work.
+  </div>
+  <div id="dashboard" class="grid-container">
+    <!-- 🐶 Random Dog -->
+    <div class="grid-item" data-id="dog" draggable="true">
       <h2>🐶 Random Dog</h2>
-      <select id="dog-breed-select"><option value="">Random Breed</option></select>
-      <button type="button" id="get-dog">Get Dog</button>
-      <button type="button" id="save-dog">Save</button>
-      <button type="button" id="show-saved-dog">Show Saved</button>
-      <div class="output" id="dog-output"></div>
-    </section>
+      <select id="dog-breed-select">
+        <option value="">Random Breed</option>
+      </select>
+      <button id="get-dog">Get Dog</button>
+      <button id="save-dog">Save</button>
+      <button id="show-saved-dog">Show Saved</button>
+      <div id="dog-output" class="output"></div>
+    </div>
 
-    <!-- CAT API -->
-    <section class="grid-item" id="cat-api" draggable="true">
+    <!-- � Dog Fact -->
+    <div class="grid-item" data-id="dog-fact" draggable="true">
+      <h2>🐶 Dog Fact</h2>
+      <button id="get-dog-fact">Get Dog Fact</button>
+      <div id="dog-fact-output" class="output"></div>
+    </div>
+    <div class="grid-item" data-id="cat" draggable="true">
       <h2>🐱 Random Cat</h2>
-      <select id="cat-breed-select"><option value="">Random Breed</option></select>
-      <button type="button" id="get-cat">Get Cat</button>
-      <button type="button" id="save-cat">Save</button>
-      <button type="button" id="show-saved-cat">Show Saved</button>
-      <div class="output" id="cat-output"></div>
-    </section>
+      <select id="cat-breed-select">
+        <option value="">Random Breed</option>
+      </select>
+      <button id="get-cat">Get Cat</button>
+      <button id="save-cat">Save</button>
+      <button id="show-saved-cat">Show Saved</button>
+      <div id="cat-output" class="output"></div>
+    </div>
 
-    <!-- WEATHER API -->
-    <section class="grid-item" id="weather-api" draggable="true">
+    <!-- 🧑 Dad Joke -->
+    <div class="grid-item" data-id="dad-joke" draggable="true">
+      <h2>Dad Joke</h2>
+      <button id="get-dad-joke">Get Dad Joke</button>
+      <div id="dad-joke-output" class="output"></div>
+    </div>
+
+    <!-- ➗ Math Fact -->
+    <div class="grid-item" data-id="math-fact" draggable="true">
+      <h2>➗ Math Fact</h2>
+      <button id="get-math-fact">Get Math Fact</button>
+      <div id="math-fact-output" class="output"></div>
+    </div>
+
+    <!-- 🍸 Cocktail Ingredient -->
+    <div class="grid-item" data-id="cocktail-ingredient" draggable="true">
+      <h2>🍸 Cocktail Ingredient</h2>
+      <button id="get-cocktail-ingredient">Get Ingredient</button>
+      <div id="cocktail-ingredient-output" class="output"></div>
+    </div>
+
+    <!-- 😀 Random Emoji -->
+    <div class="grid-item" data-id="emoji" draggable="true">
+      <h2>😀 Random Emoji</h2>
+      <button id="get-emoji">Get Emoji</button>
+      <div id="emoji-output" class="output"></div>
+    </div>
+
+    <!-- 🌠 Planet Fact -->
+    <div class="grid-item" data-id="planet-fact" draggable="true">
+      <h2>🌠 Planet Facts</h2>
+      <button id="get-planet-fact">Get Fact</button>
+      <div id="planet-fact-output" class="output"></div>
+    </div>
+
+    <!-- ☀️ Weather Info -->
+    <div class="grid-item" data-id="weather" draggable="true">
       <h2>☀️ Weather Info</h2>
-      <input type="text" id="weather-city-input" placeholder="Enter city" />
-      <button type="button" id="weather-voice">🎤 Voice</button>
-      <button type="button" id="get-weather">Get Weather</button>
-      <div class="output" id="weather-output"></div>
-    </section>
+      <input type="text" id="weather-city-input" placeholder="Enter city">
+      <button id="weather-voice">🎤 Voice</button>
+      <button id="get-weather">Get Weather</button>
+      <div id="weather-output" class="output"></div>
+    </div>
 
-    <!-- CURRENCY API -->
-    <section class="grid-item" id="currency-api" draggable="true">
+    <!-- 💱 Currency Rates -->
+    <div class="grid-item" data-id="currency" draggable="true">
       <h2>💱 Currency Rates</h2>
-      <input type="number" id="amount" placeholder="Amount in USD" />
+      <input type="number" id="amount" placeholder="Enter amount in USD">
       <select id="currency-select">
         <option value="EUR">EUR</option>
         <option value="GBP">GBP</option>
         <option value="JPY">JPY</option>
       </select>
-      <button type="button" id="convert-currency">Convert</button>
-      <div class="output" id="currency-output"></div>
-    </section>
+      <button id="convert-currency">Convert</button>
+      <div id="currency-output" class="output"></div>
+    </div>
 
-    <!-- MOVIES API -->
-    <section class="grid-item" id="movies-api" draggable="true">
+    <!-- 🪙 Cryptocurrency Prices -->
+    <div class="grid-item" data-id="crypto" draggable="true">
+      <h2>🪙 Cryptocurrency Prices</h2>
+      <select id="crypto-select">
+        <option value="bitcoin">Bitcoin</option>
+        <option value="ethereum">Ethereum</option>
+        <option value="dogecoin">Dogecoin</option>
+        <option value="solana">Solana</option>
+        <option value="cardano">Cardano</option>
+      </select>
+      <button id="get-crypto">Get Price</button>
+      <div id="crypto-output" class="output"></div>
+    </div>
+
+    <!-- 🎞️ Giphy GIFs -->
+    <div class="grid-item" data-id="giphy" draggable="true">
+      <h2>🎞️ Giphy GIFs</h2>
+      <input type="text" id="giphy-search-input" placeholder="Search GIFs (optional)">
+      <button id="get-giphy-trending">Trending GIFs</button>
+      <button id="get-giphy-search">Search GIFs</button>
+      <div id="giphy-output" class="output"></div>
+    </div>
+
+    <!-- 🎬 Trending Movies -->
+    <div class="grid-item" data-id="movies" draggable="true">
       <h2>🎬 Trending Movies</h2>
-      <button type="button" id="get-movies">Get Movies</button>
-      <button type="button" id="prev-movie">⬅️</button>
-      <button type="button" id="next-movie">➡️</button>
-      <div class="output" id="movies-output"></div>
-    </section>
+      <button id="get-movies">Get Movies</button>
+      <button id="prev-movie">⬅️</button>
+      <button id="next-movie">➡️</button>
+      <div id="movies-output" class="output"></div>
+    </div>
 
-    <!-- GITHUB API -->
-    <section class="grid-item" id="github-api" draggable="true">
+    <!-- 🧑‍💻 GitHub User -->
+    <div class="grid-item" data-id="github" draggable="true">
       <h2>🧑‍💻 GitHub User</h2>
-      <input type="text" id="github-user-input" placeholder="Enter GitHub username" />
-      <button type="button" id="github-voice">🎤 Voice</button>
-      <button type="button" id="search-github">Search</button>
-      <div class="output" id="github-output"></div>
-    </section>
+      <input type="text" id="github-user-input" placeholder="Enter username">
+      <button id="github-voice">🎤 Voice</button>
+      <button id="search-github">Search</button>
+      <div id="github-output" class="output"></div>
+    </div>
 
-    <!-- JOKE API -->
-    <section class="grid-item" id="joke-api" draggable="true">
+    <!-- 🤣 Random Joke -->
+    <div class="grid-item" data-id="joke" draggable="true">
       <h2>🤣 Random Joke</h2>
       <select id="joke-category-select">
         <option value="">Any</option>
@@ -91,20 +154,260 @@
         <option value="Spooky">Spooky</option>
         <option value="Christmas">Christmas</option>
       </select>
-      <button type="button" id="get-joke">Get Joke</button>
-      <button type="button" id="save-joke">Save</button>
-      <button type="button" id="show-saved-joke">Show Saved</button>
-      <div class="output" id="joke-output"></div>
-    </section>
+      <button id="get-joke">Get Joke</button>
+      <button id="save-joke">Save</button>
+      <button id="show-saved-joke">Show Saved</button>
+      <div id="joke-output" class="output"></div>
+    </div>
 
-    <!-- PUBLIC API -->
-    <section class="grid-item" id="public-api" draggable="true">
+    <!-- 📚 Public APIs -->
+    <div class="grid-item" data-id="public-api" draggable="true">
       <h2>📚 Public APIs</h2>
-      <button type="button" id="show-public-api">Show One</button>
-      <div class="output" id="publicapi-output"></div>
-    </section>
-  </div>
+      <button id="show-public-api">Show One</button>
+      <div id="public-api-output" class="output"></div>
+    </div>
 
+    <!-- 💡 Advice -->
+    <div class="grid-item" data-id="advice" draggable="true">
+      <h2>💡 Advice</h2>
+      <button id="get-advice">Get Advice</button>
+      <div id="advice-output" class="output"></div>
+    </div>
+
+    <!-- 🚀 NASA Picture of the Day -->
+    <div class="grid-item" data-id="nasa" draggable="true">
+      <h2>🚀 NASA Picture of the Day</h2>
+      <button id="get-nasa">Show APOD</button>
+      <div id="nasa-output" class="output"></div>
+    </div>
+
+    <!-- ❓ Trivia -->
+    <div class="grid-item" data-id="trivia" draggable="true">
+      <h2>❓ Trivia</h2>
+      <button id="get-trivia">Get Trivia</button>
+      <div id="trivia-output" class="output"></div>
+    </div>
+
+    <!-- ❓ Custom Trivia -->
+    <div class="grid-item" data-id="custom-trivia" draggable="true">
+      <h2>❓ Custom Trivia</h2>
+      <select id="trivia-category-select">
+        <option value="">Any Category</option>
+        <option value="9">General Knowledge</option>
+        <option value="10">Entertainment: Books</option>
+        <option value="11">Entertainment: Film</option>
+        <option value="12">Entertainment: Music</option>
+        <option value="13">Entertainment: Musicals & Theatres</option>
+        <option value="14">Entertainment: Television</option>
+        <option value="15">Entertainment: Video Games</option>
+        <option value="16">Entertainment: Board Games</option>
+        <option value="17">Science & Nature</option>
+        <option value="18">Science: Computers</option>
+        <option value="19">Science: Mathematics</option>
+        <option value="20">Mythology</option>
+        <option value="21">Sports</option>
+        <option value="22">Geography</option>
+        <option value="23">History</option>
+        <option value="24">Politics</option>
+        <option value="25">Art</option>
+        <option value="26">Celebrities</option>
+        <option value="27">Animals</option>
+        <option value="28">Vehicles</option>
+        <option value="29">Entertainment: Comics</option>
+        <option value="30">Science: Gadgets</option>
+        <option value="31">Entertainment: Japanese Anime & Manga</option>
+        <option value="32">Entertainment: Cartoon & Animations</option>
+      </select>
+      <select id="trivia-difficulty-select">
+        <option value="">Any Difficulty</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button id="get-custom-trivia">Get Custom Trivia</button>
+      <div id="custom-trivia-output" class="output"></div>
+    </div>
+
+    <!-- 🔢 Number Fact -->
+    <div class="grid-item" data-id="number" draggable="true">
+      <h2>🔢 Number Fact</h2>
+      <input type="number" id="number-input" placeholder="Enter a number">
+      <button id="get-number">Get Fact</button>
+      <div id="number-output" class="output"></div>
+    </div>
+
+    <!-- 🕹️ Random Pokémon -->
+    <div class="grid-item" data-id="pokemon" draggable="true">
+      <h2>🕹️ Random Pokémon</h2>
+      <button id="get-pokemon">Get Pokémon</button>
+      <div id="pokemon-output" class="output"></div>
+    </div>
+
+    <!-- 🛸 Star Wars Character -->
+    <div class="grid-item" data-id="star-wars" draggable="true">
+      <h2>🛸 Star Wars Character</h2>
+      <button id="get-star-wars">Get Character</button>
+      <div id="star-wars-output" class="output"></div>
+    </div>
+
+    <!-- 🤠 Chuck Norris Joke -->
+    <div class="grid-item" data-id="chuck" draggable="true">
+      <h2>🤠 Chuck Norris Joke</h2>
+      <button id="get-chuck">Get Joke</button>
+      <div id="chuck-output" class="output"></div>
+    </div>
+
+    <!-- 👤 Random User -->
+    <div class="grid-item" data-id="user" draggable="true">
+      <h2>👤 Random User</h2>
+      <button id="get-user">Get User</button>
+      <div id="user-output" class="output"></div>
+    </div>
+
+    <!-- 🌍 Your IP & Location -->
+    <div class="grid-item" data-id="ip" draggable="true">
+      <h2>🌍 Your IP & Location</h2>
+      <button id="get-ip">Show My Info</button>
+      <div id="ip-output" class="output"></div>
+    </div>
+
+    <!-- 🦊 Random Fox -->
+    <div class="grid-item" data-id="fox" draggable="true">
+      <h2>🦊 Random Fox</h2>
+      <button id="get-fox">Get Fox</button>
+      <div id="fox-output" class="output"></div>
+    </div>
+
+    <!-- 🦆 Random Duck -->
+    <div class="grid-item" data-id="duck" draggable="true">
+      <h2>🦆 Random Duck</h2>
+      <button id="get-duck">Get Duck</button>
+      <div id="duck-output" class="output"></div>
+    </div>
+
+    <!-- 🐱 Cat Fact -->
+    <div class="grid-item" data-id="cat-fact" draggable="true">
+      <h2>🐱 Cat Fact</h2>
+      <button id="get-cat-fact">Get Cat Fact</button>
+      <div id="cat-fact-output" class="output"></div>
+    </div>
+
+    <!-- 🍔 Random Food -->
+    <div class="grid-item" data-id="food" draggable="true">
+      <h2>🍔 Random Food</h2>
+      <button id="get-food">Get Food</button>
+      <div id="food-joke-output" class="output"></div>
+    </div>
+
+    <!-- 🧪 Science Trivia -->
+    <div class="grid-item" data-id="space-fact" draggable="true">
+      <h2>🧪  Science Trivia</h2>
+      <button id="get-space-fact">Get Science Trivia</button>
+      <div id="space-fact-output" class="output"></div>
+    </div>
+
+    <!-- 🍹 Random Cocktail -->
+    <div class="grid-item" data-id="cocktail" draggable="true">
+      <h2>🍹 Random Cocktail</h2>
+      <button id="get-cocktail">Get Cocktail</button>
+      <div id="cocktail-output" class="output"></div>
+    </div>
+
+    <!-- 🎤 Kanye Quote -->
+    <div class="grid-item" data-id="kanye" draggable="true">
+      <h2>🎤 Kanye Quote</h2>
+      <button id="get-kanye">Get Kanye Quote</button>
+      <div id="kanye-output" class="output"></div>
+    </div>
+
+    <!-- 👶 Age Prediction -->
+    <div class="grid-item" data-id="age" draggable="true">
+      <h2>👶 Age Prediction</h2>
+      <input type="text" id="age-name-input" placeholder="Enter name">
+      <button id="get-age">Predict Age</button>
+      <div id="age-output" class="output"></div>
+    </div>
+
+    <!-- 🚻 Gender Prediction -->
+    <div class="grid-item" data-id="gender" draggable="true">
+      <h2>🚻 Gender Prediction</h2>
+      <input type="text" id="gender-name-input" placeholder="Enter name">
+      <button id="get-gender">Predict Gender</button>
+      <div id="gender-output" class="output"></div>
+    </div>
+
+    <!-- 🌎 Nationalize Prediction -->
+    <div class="grid-item" data-id="nationalize" draggable="true">
+      <h2>🌎 Nationalize Prediction</h2>
+      <input type="text" id="nationalize-name-input" placeholder="Enter name">
+      <button id="get-nationalize">Predict Nationality</button>
+      <div id="nationalize-output" class="output"></div>
+    </div>
+
+    <!-- 🦸 Superhero -->
+    <div class="grid-item" data-id="superhero" draggable="true">
+      <h2>🦸 Superhero</h2>
+      <button id="get-superhero">Get Superhero</button>
+      <div id="superhero-output" class="output"></div>
+    </div>
+
+    <!-- 😂 Random Meme -->
+    <div class="grid-item" data-id="meme" draggable="true">
+      <h2>😂 Random Meme</h2>
+      <button id="get-meme">Get Meme</button>
+      <div id="meme-output" class="output"></div>
+    </div>
+
+    <!-- 🤯 Random Fact -->
+    <div class="grid-item" data-id="fact" draggable="true">
+      <h2>🤯 Random Fact</h2>
+      <button id="get-fact">Get Fact</button>
+      <div id="fact-output" class="output"></div>
+    </div>
+
+    <!-- 🐾 Random Animal Fact -->
+    <div class="grid-item" data-id="animal-fact" draggable="true">
+      <h2>🐾 Random Animal Fact</h2>
+      <button id="get-animal-fact">Get Animal Fact</button>
+      <div id="animal-fact-output" class="output"></div>
+    </div>
+
+    <!-- 🌍 Random Country -->
+    <div class="grid-item" data-id="country" draggable="true">
+      <h2>🌍 Random Country</h2>
+      <button id="get-country">Get Country</button>
+      <div id="country-output" class="output"></div>
+    </div>
+
+    <!-- 📜 Random Historical Event -->
+    <div class="grid-item" data-id="history" draggable="true">
+      <h2>📜 Random Historical Event</h2>
+      <button id="get-history">Get History</button>
+      <div id="history-output" class="output"></div>
+    </div>
+
+    <!-- 📚 Random Book -->
+    <div class="grid-item" data-id="book" draggable="true">
+      <h2>📚 Random Book</h2>
+      <button id="get-book">Get Book</button>
+      <div id="book-output" class="output"></div>
+    </div>
+
+    <!-- 🏀 Sports Trivia -->
+    <div class="grid-item" data-id="sports-trivia" draggable="true">
+      <h2>🏀 Sports Trivia</h2>
+      <button id="get-sports-trivia">Get Sports Trivia</button>
+      <div id="sports-trivia-output" class="output"></div>
+    </div>
+
+    <!-- 🎥 Movie Trivia -->
+    <div class="grid-item" data-id="movie-trivia" draggable="true">
+      <h2>🎥 Movie Trivia</h2>
+      <button id="get-movie-trivia">Get Movie Trivia</button>
+      <div id="movie-trivia-output" class="output"></div>
+    </div>
+  </div>
+  <div id="saved-modal" style="display:none;"></div>
   <script src="script.js"></script>
 </body>
 </html>
